@@ -1,4 +1,5 @@
 <!doctype html><html xmlns="http://www.w3.org/1999/xhtml"><head><title>Keynote</title><meta name="viewport" content="initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,width=device-width"/><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/></head><body id="body" bgcolor="black"><div id="stageArea"><div id="stage" class="stage"></div><div id="hyperlinkPlane" class="stage"></div></div><div id="slideshowNavigator"></div><div id="slideNumberControl"></div><div id="slideNumberDisplay"></div><div id="helpPlacard"></div><div id="waitingIndicator"><div id="waitingSpinner"></div></div><script src="assets/player/main.js"></script>
-<button id="fsBtn" onclick="document.documentElement.requestFullscreen()" title="Fullscreen" style="position:fixed;bottom:18px;right:18px;z-index:9999;background:rgba(255,255,255,0.15);border:none;border-radius:6px;padding:8px 10px;cursor:pointer;font-size:18px;color:white;">⛶</button>
-<script>document.addEventListener('fullscreenchange',function(){document.getElementById('fsBtn').style.display=document.fullscreenElement?'none':'block';});</script>
+<div id="fsOverlay" style="position:fixed;inset:0;z-index:9999;background:black;display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="document.documentElement.requestFullscreen();document.getElementById('fsOverlay').style.display='none';">
+  <div style="color:white;font-family:sans-serif;font-size:22px;opacity:0.7;">Click to start</div>
+</div>
 </body></html>
