@@ -240,17 +240,28 @@
       max-width: 480px;
       line-height: 1.6;
     }
-    #s11 .contact { display: flex; flex-direction: column; gap: 10px; }
-    #s11 .contact a {
+    #s10 .contact { display: flex; flex-direction: column; gap: 0; }
+    #s10 .contact a {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
       font-size: clamp(13px, 1.3vw, 15px);
       color: var(--fg);
       text-decoration: none;
+      padding: 14px 0;
       border-bottom: 1px solid var(--line);
-      padding-bottom: 3px;
-      width: fit-content;
-      transition: border-color 0.2s;
+      transition: color 0.2s;
     }
-    #s11 .contact a:hover { border-color: var(--fg); }
+    #s10 .contact a:first-child { border-top: 1px solid var(--line); }
+    #s10 .contact a:hover { color: var(--fg); opacity: 0.7; }
+    #s10 .contact .contact-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      width: 70px;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -273,7 +284,7 @@
     <div class="slide-inner">
       <div class="label">About</div>
       <h2>Who I Am</h2>
-      <p>I grew up in Peru watching institutions fail the people they were supposed to serve. I believe technology can close those gaps, but only if it is built with the people it affects. My goal is to build human-centered tech that is honest about its tradeoffs and designed to expand, not replace, human agency.</p>
+      <p>I grew up in Peru, where I saw how the distance between institutions and communities shapes everyday life. Since then, I have focused on building human-centered technology that helps close those gaps, grounded in collaboration with the people it affects and transparent about its tradeoffs.</p>
       <div class="rule"></div>
       <div class="grid">
         <div class="col">
@@ -373,7 +384,7 @@
         </div>
       </div>
       <div class="media-col">
-        <img src="assets/images/applai.jpeg" alt="ApplAI interface" style="width:100%;max-height:55vh;object-fit:cover;border-radius:4px;" />
+        <img src="assets/images/applai-v2.jpeg" alt="ApplAI interface" style="width:100%;max-height:55vh;object-fit:cover;border-radius:4px;" />
       </div>
     </div>
   </section>
@@ -394,9 +405,6 @@
         </div>
         <div class="tools-list" style="margin-top:16px">
           <span>Figma</span>
-          <span>Fireworks AI</span>
-          <span>Mistral</span>
-          <span>Prompt Engineering</span>
         </div>
         <a class="link-out" href="https://www.figma.com/proto/qfC9lb682GSVpieLR2Z6wX/ApplAI" target="_blank" rel="noopener">View Prototype →</a>
       </div>
@@ -500,9 +508,22 @@
       <p class="tagline">Building tech that is human-centered and helps close gaps.</p>
       <div class="rule"></div>
       <div class="contact">
-        <a href="mailto:marisu.chang@gmail.com">marisu.chang@gmail.com</a>
-        <a href="tel:+16073793864">(607) 379-3864</a>
-        <a href="https://www.linkedin.com/in/mariasusanachangv/" target="_blank" rel="noopener">LinkedIn →</a>
+        <a href="mailto:marisu.chang@gmail.com">
+          <span class="contact-label">Email</span>
+          marisu.chang@gmail.com
+        </a>
+        <a href="tel:+16073793864">
+          <span class="contact-label">Phone</span>
+          (607) 379-3864
+        </a>
+        <a href="https://www.linkedin.com/in/mariasusanachangv/" target="_blank" rel="noopener">
+          <span class="contact-label">LinkedIn</span>
+          mariasusanachangv ↗
+        </a>
+        <a href="https://drive.google.com/file/d/1FhjVpg4-tCF_qpju0q37qfl4-ZFgqjsn/view?usp=sharing" target="_blank" rel="noopener">
+          <span class="contact-label">Resume</span>
+          View PDF ↗
+        </a>
       </div>
     </div>
   </section>
