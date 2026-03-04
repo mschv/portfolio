@@ -1,2 +1,562 @@
-<!doctype html><html xmlns="http://www.w3.org/1999/xhtml"><head><title>Keynote</title><meta name="viewport" content="initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,width=device-width"/><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><style>html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;}</style></head><body id="body" bgcolor="black"><div id="stageArea"><div id="stage" class="stage"></div><div id="hyperlinkPlane" class="stage"></div></div><div id="slideshowNavigator"></div><div id="slideNumberControl"></div><div id="slideNumberDisplay"></div><div id="helpPlacard"></div><div id="waitingIndicator"><div id="waitingSpinner"></div></div><script src="assets/player/main.js"></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maria Chang — Portfolio</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #111111;
+      --bg2: #181818;
+      --fg: #f0f0f0;
+      --muted: rgba(240,240,240,0.5);
+      --line: rgba(240,240,240,0.15);
+      --accent: rgba(240,240,240,0.08);
+      --font: 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font);
+      overflow: hidden;
+    }
+
+    /* ── scroll container ── */
+    main {
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scrollbar-width: none;
+    }
+    main::-webkit-scrollbar { display: none; }
+
+    section {
+      height: 100vh;
+      width: 100vw;
+      scroll-snap-align: start;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 0 8vw;
+    }
+
+    /* ── nav dots ── */
+    nav {
+      position: fixed;
+      right: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    nav a {
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: background 0.3s, transform 0.3s;
+      text-decoration: none;
+    }
+    nav a.active {
+      background: var(--fg);
+      transform: scale(1.4);
+    }
+
+    /* ── typography ── */
+    .label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    h2 {
+      font-size: clamp(32px, 5vw, 58px);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 28px;
+    }
+    h3 {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: clamp(13px, 1.4vw, 15px);
+      line-height: 1.7;
+      color: var(--fg);
+      max-width: 560px;
+    }
+    .rule { width: 100%; height: 1px; background: var(--line); margin: 20px 0; }
+
+    /* ── slide layouts ── */
+    .slide-inner {
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    /* ── S1: hero ── */
+    #s1 { background: var(--bg); }
+    #s1 .slide-inner { display: flex; flex-direction: column; gap: 16px; }
+    #s1 .subtitle {
+      font-size: clamp(13px, 1.6vw, 17px);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    /* ── S2: about ── */
+    #s2 { background: var(--bg2); }
+    #s2 .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 60px;
+      margin-top: 8px;
+    }
+    #s2 .col { display: flex; flex-direction: column; gap: 12px; }
+    #s2 .interest-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    #s2 .interest-list li {
+      font-size: clamp(13px, 1.3vw, 15px);
+      padding-left: 16px;
+      border-left: 1px solid var(--line);
+      color: var(--fg);
+      line-height: 1.5;
+    }
+
+    /* ── project slides ── */
+    .project-slide { background: var(--bg); }
+    .project-slide.alt { background: var(--bg2); }
+    .project-slide .slide-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+    .project-slide .text-col { display: flex; flex-direction: column; }
+    .project-slide .media-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .project-slide video {
+      width: 100%;
+      max-height: 55vh;
+      border-radius: 4px;
+      background: #000;
+      object-fit: cover;
+    }
+    .insight {
+      margin-top: 20px;
+      padding: 16px 20px;
+      border-left: 2px solid var(--line);
+      font-size: clamp(12px, 1.2vw, 14px);
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 480px;
+    }
+    .link-out {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--fg);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 3px;
+      transition: border-color 0.2s;
+    }
+    .link-out:hover { border-color: var(--fg); }
+
+    .tools-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .tools-list span {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      color: var(--muted);
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+    .three-col .item { display: flex; flex-direction: column; gap: 8px; }
+    .three-col .item p { max-width: none; font-size: 13px; }
+
+    /* ── S11: thank you ── */
+    #s11 { background: var(--bg2); }
+    #s11 .slide-inner { display: flex; flex-direction: column; gap: 28px; }
+    #s11 .tagline {
+      font-size: clamp(13px, 1.5vw, 17px);
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.6;
+    }
+    #s11 .contact { display: flex; flex-direction: column; gap: 10px; }
+    #s11 .contact a {
+      font-size: clamp(13px, 1.3vw, 15px);
+      color: var(--fg);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 3px;
+      width: fit-content;
+      transition: border-color 0.2s;
+    }
+    #s11 .contact a:hover { border-color: var(--fg); }
+  </style>
+</head>
+<body>
+
+<nav id="dots"></nav>
+
+<main id="main">
+
+  <!-- S1: Hero -->
+  <section id="s1">
+    <div class="slide-inner">
+      <div class="label">Portfolio</div>
+      <h1>Maria Chang</h1>
+      <div class="subtitle">Product Management &amp; Design</div>
+    </div>
+  </section>
+
+  <!-- S2: Who I Am -->
+  <section id="s2">
+    <div class="slide-inner">
+      <div class="label">About</div>
+      <h2>Who I Am</h2>
+      <p>I grew up in Peru watching institutions fail the people they were supposed to serve. I believe technology can close those gaps, but only if it is built with the people it affects. My goal is to build human-centered tech that is honest about its tradeoffs and designed to expand, not replace, human agency.</p>
+      <div class="rule"></div>
+      <div class="grid">
+        <div class="col">
+          <h3>Background</h3>
+          <p>Industrial and Systems Engineer from Peru, with an MBA from Politecnico di Milano and an MPS in Information Science from Cornell. I have worked across e-commerce, advertising, and job search platforms as a product manager and analyst.</p>
+          <p style="margin-top:10px">My work sits at the intersection of technology, human behavior, and systems design.</p>
+        </div>
+        <div class="col">
+          <h3>Interests</h3>
+          <ul class="interest-list">
+            <li>Human-AI Interaction</li>
+            <li>AI Policy and Governance</li>
+            <li>Technology for Development</li>
+            <li>Product Strategy</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S3: Elecciones 2026 P1 -->
+  <section id="s3" class="project-slide">
+    <div class="slide-inner">
+      <div class="text-col">
+        <div class="label">Project 01 — Ongoing</div>
+        <h2>Elecciones 2026</h2>
+        <div class="rule"></div>
+        <h3>Problem</h3>
+        <p>In Peru, corruption is normalized. The JNE (national electoral body) makes candidate info public, but the website is dense and hard to navigate. Voters struggle to compare candidates on policy, background, or track record.</p>
+        <p style="margin-top:14px"><strong>Goal:</strong> Make information easy to scan without nudging voters toward any candidate.</p>
+        <div style="margin-top:16px">
+          <h3>Built With</h3>
+          <div class="tools-list">
+            <span>Claude Code</span>
+            <span>Web Scraping</span>
+            <span>JNE Data</span>
+          </div>
+        </div>
+      </div>
+      <div class="media-col">
+        <video autoplay muted loop playsinline>
+          <source src="assets/5BDC9402-785D-4C27-AEFC-09F6D7622AD8/assets/Screen Recording 2026-03-03 at 4.45.37%E2%80%AFPM.mov-0.0000-15.3100.mov" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4: Elecciones 2026 P2 -->
+  <section id="s4" class="project-slide alt">
+    <div class="slide-inner">
+      <div class="text-col">
+        <div class="label">Project 01 — Approach</div>
+        <h2>Elecciones 2026</h2>
+        <div class="rule"></div>
+        <h3>Approach</h3>
+        <p>Restructured the information architecture to surface policy positions, background, and track record in a scannable, comparable format.</p>
+        <div class="insight">"The hardest design decision was not layout: it was deciding what to show and how much. Every choice about what to surface or suppress is implicitly an editorial decision. Neutrality is not a default. It has to be actively designed for."</div>
+        <a class="link-out" href="https://mschv.github.io/eleccciones2026/" target="_blank" rel="noopener">View Live →</a>
+      </div>
+      <div class="media-col">
+        <video autoplay muted loop playsinline>
+          <source src="assets/F94F7152-56E0-4304-A161-6BBD2FF6A69A/assets/Screen Recording 2026-03-03 at 4.52.35%E2%80%AFPM.mov-0.0000-27.3636.mov" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- S5: ApplAI P1 -->
+  <section id="s5" class="project-slide alt">
+    <div class="slide-inner">
+      <div class="text-col">
+        <div class="label">Project 02 — Cornell HCI Studio</div>
+        <h2>ApplAI</h2>
+        <div class="rule"></div>
+        <h3>Problem</h3>
+        <p>Candidates going through AI-assisted hiring have almost no visibility into how decisions are made and no recourse if they suspect unfair treatment.</p>
+        <div style="margin-top:20px">
+          <h3>Solution</h3>
+          <p>A platform giving candidates three things they lack:</p>
+          <div class="three-col" style="margin-top:14px">
+            <div class="item">
+              <div class="label" style="margin-bottom:6px">01</div>
+              <p>Visibility into companies' hiring practices</p>
+            </div>
+            <div class="item">
+              <div class="label" style="margin-bottom:6px">02</div>
+              <p>A way to raise concerns</p>
+            </div>
+            <div class="item">
+              <div class="label" style="margin-bottom:6px">03</div>
+              <p>Access to legal guidance if rights were violated</p>
+            </div>
+          </div>
+        </div>
+        <div class="tools-list" style="margin-top:20px">
+          <span>Figma</span>
+        </div>
+      </div>
+      <div class="media-col"></div>
+    </div>
+  </section>
+
+  <!-- S6: ApplAI P2 -->
+  <section id="s6" class="project-slide">
+    <div class="slide-inner">
+      <div class="text-col">
+        <div class="label">Project 02 — Process &amp; Results</div>
+        <h2>ApplAI</h2>
+        <div class="rule"></div>
+        <h3>Process</h3>
+        <p>User interviews, heuristic evaluation, and usability testing across multi-screen workflows.</p>
+        <div class="insight">"The most valuable intervention was making systemic information legible so candidates could make informed choices from the start."</div>
+        <div style="margin-top:16px">
+          <h3>Key Finding</h3>
+          <p>The companies' hiring practices view resonated most strongly. Users wanted visibility before applying — not just a complaint button after something went wrong.</p>
+        </div>
+        <div class="tools-list" style="margin-top:16px">
+          <span>Figma</span>
+          <span>Fireworks AI</span>
+          <span>Mistral</span>
+          <span>Prompt Engineering</span>
+        </div>
+        <a class="link-out" href="https://www.figma.com/proto/qfC9lb682GSVpieLR2Z6wX/ApplAI" target="_blank" rel="noopener">View Prototype →</a>
+      </div>
+      <div class="media-col">
+        <video autoplay muted loop playsinline>
+          <source src="assets/B7354DA2-FDA1-42AB-BFE6-91C79CC6F75D/assets/Screen Recording 2026-03-03 at 5.09.42%E2%80%AFPM.mov-0.0000-35.5489.mov" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- S7: Jobrapido P1 -->
+  <section id="s7" class="project-slide alt">
+    <div class="slide-inner">
+      <div class="text-col">
+        <div class="label">Project 03 — PM Internship</div>
+        <h2>Jobrapido</h2>
+        <div class="rule"></div>
+        <h3>Problem</h3>
+        <p>Low retention. Users were not coming back.</p>
+        <p style="margin-top:10px"><em>"The UX was the bottleneck. If we made the search experience meaningfully better, retention would follow."</em></p>
+        <div style="margin-top:20px">
+          <h3>Three Levers</h3>
+          <div class="three-col">
+            <div class="item">
+              <div class="label" style="margin-bottom:6px">Filtering</div>
+              <p>Built ML keyword extraction workflow to improve job-to-query matching (80% accuracy)</p>
+            </div>
+            <div class="item">
+              <div class="label" style="margin-bottom:6px">UI Redesign</div>
+              <p>Restructured results page with inline job preview and rebalanced visual hierarchy</p>
+            </div>
+            <div class="item">
+              <div class="label" style="margin-bottom:6px">Subscription</div>
+              <p>Reworked copy and flow to convert more users into returning ones</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="media-col"></div>
+    </div>
+  </section>
+
+  <!-- S8: Jobrapido P2 -->
+  <section id="s8" class="project-slide">
+    <div class="slide-inner">
+      <div class="text-col">
+        <div class="label">Project 03 — Results</div>
+        <h2>Jobrapido</h2>
+        <div class="rule"></div>
+        <h3>Outcome</h3>
+        <p>Data-driven redesign proposal with measurable improvements tracked across engagement metrics using an A/B testing framework with Looker dashboards.</p>
+        <div style="margin-top:16px">
+          <h3>Technical Achievement</h3>
+          <p>Used Fireworks AI to test and compare models. Fine-tuned a zero-shot prompt with Mistral until reaching 80% keyword extraction accuracy.</p>
+        </div>
+        <div class="tools-list" style="margin-top:16px">
+          <span>Figma</span>
+          <span>Looker Studio</span>
+          <span>A/B Testing</span>
+          <span>SQL</span>
+          <span>Fireworks AI</span>
+          <span>Mistral</span>
+        </div>
+      </div>
+      <div class="media-col"></div>
+    </div>
+  </section>
+
+  <!-- S9: Jobrapido P3 -->
+  <section id="s9" class="project-slide alt">
+    <div class="slide-inner">
+      <div class="text-col" style="max-width:600px">
+        <div class="label">Project 03 — Summary</div>
+        <h2>Jobrapido</h2>
+        <div class="rule"></div>
+        <p>A PM internship focused on understanding why users weren't returning — and shipping a measurable answer.</p>
+        <div style="margin-top:28px; display:flex; flex-direction:column; gap:18px;">
+          <div>
+            <h3>Filtering</h3>
+            <p>ML keyword extraction improved job-to-query relevance, reducing noise and increasing result quality</p>
+          </div>
+          <div class="rule" style="margin:0"></div>
+          <div>
+            <h3>Subscription Flow</h3>
+            <p>Revised copy and UX flow converted more one-time visitors into subscribed, returning users</p>
+          </div>
+          <div class="rule" style="margin:0"></div>
+          <div>
+            <h3>UI Redesign</h3>
+            <p>Inline preview and visual hierarchy changes reduced friction in the core search-to-apply path</p>
+          </div>
+        </div>
+      </div>
+      <div class="media-col"></div>
+    </div>
+  </section>
+
+  <!-- S10: A Common Day -->
+  <section id="s10" class="project-slide">
+    <div class="slide-inner">
+      <div class="text-col">
+        <div class="label">Project 04 — Cornell Art &amp; Technology</div>
+        <h2>A Common Day</h2>
+        <div class="rule"></div>
+        <h3>What It Is</h3>
+        <p>An interactive narrative game about an ordinary workday. Play as Alex — make small choices throughout the day (talk to a neighbor, respond to a coworker, leave early or stay late).</p>
+        <p style="margin-top:12px">Two stats — <strong>Drive</strong> and <strong>Connection</strong> — shift with every decision and shape how the day ends.</p>
+        <div class="insight">"Built end-to-end, solo, using Claude Code."</div>
+        <div class="tools-list" style="margin-top:16px">
+          <span>Claude Code</span>
+        </div>
+        <a class="link-out" href="https://mschv.github.io/my-game" target="_blank" rel="noopener">Play the Game →</a>
+      </div>
+      <div class="media-col"></div>
+    </div>
+  </section>
+
+  <!-- S11: Thank You -->
+  <section id="s11">
+    <div class="slide-inner">
+      <div class="label">Contact</div>
+      <h2>Thank You</h2>
+      <p class="tagline">Building tech that is human-centered and helps close gaps.</p>
+      <div class="rule"></div>
+      <div class="contact">
+        <a href="mailto:marisu.chang@gmail.com">marisu.chang@gmail.com</a>
+        <a href="tel:+16073793864">(607) 379-3864</a>
+        <a href="https://www.linkedin.com/in/mariasusanachangv/" target="_blank" rel="noopener">LinkedIn →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = Array.from(document.querySelectorAll('section'));
+  const nav = document.getElementById('dots');
+  const main = document.getElementById('main');
+
+  // build dots
+  sections.forEach((s, i) => {
+    const a = document.createElement('a');
+    a.href = '#' + s.id;
+    a.dataset.i = i;
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      sections[i].scrollIntoView({ behavior: 'smooth' });
+    });
+    nav.appendChild(a);
+  });
+
+  const dots = Array.from(nav.querySelectorAll('a'));
+
+  // active dot via IntersectionObserver
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const i = sections.indexOf(entry.target);
+        dots.forEach(d => d.classList.remove('active'));
+        if (dots[i]) dots[i].classList.add('active');
+      }
+    });
+  }, { root: main, threshold: 0.6 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // keyboard nav
+  document.addEventListener('keydown', e => {
+    const active = dots.findIndex(d => d.classList.contains('active'));
+    if (e.key === 'ArrowDown' && active < sections.length - 1) {
+      sections[active + 1].scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'ArrowUp' && active > 0) {
+      sections[active - 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>
+
+</body>
+</html>
