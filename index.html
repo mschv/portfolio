@@ -11,6 +11,12 @@
       font-weight: 100 900;
       font-style: normal;
     }
+    @font-face {
+      font-family: 'Melodrama';
+      src: url('fonts/Melodrama.ttf') format('truetype');
+      font-weight: 100 900;
+      font-style: normal;
+    }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -87,6 +93,7 @@
       margin-bottom: 20px;
     }
     h1 {
+      font-family: 'Melodrama', var(--font);
       font-size: clamp(52px, 8vw, 96px);
       font-weight: 300;
       letter-spacing: 0.05em;
@@ -94,6 +101,7 @@
       line-height: 1;
     }
     h2 {
+      font-family: 'Melodrama', var(--font);
       font-size: clamp(32px, 5vw, 58px);
       font-weight: 300;
       letter-spacing: 0.04em;
